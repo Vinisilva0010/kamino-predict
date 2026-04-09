@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{Mint, Token, TokenAccount};
 
 use crate::error::KaminoError;
-use crate::state::VaultConfig;
+use crate::state::{VaultConfig, MAX_VAULT_NAME_LEN};
 
 #[derive(Accounts)]
 #[instruction(params: InitializeVaultParams)]
@@ -55,6 +55,7 @@ pub fn initialize_vault_handler(
     ctx: Context<InitializeVault>,
     params: InitializeVaultParams,
 ) -> Result<()> {
+    // valida soma das alocações
     require!(
         params.kamino_allocation_bps
             .checked_add(params.prediction_allocation_bps)
@@ -63,18 +64,30 @@ pub fn initialize_vault_handler(
         KaminoError::InvalidAllocation
     );
 
+    // valida tamanho do nome e grava em formato fixo zero-padded
+    let name_bytes = params.name.as_bytes();
+    require!(
+        name_bytes.len() <= MAX_VAULT_NAME_LEN,
+        KaminoError::NameTooLong
+    );
+
     let vault = &mut ctx.accounts.vault_config;
 
-    vault.admin                    = ctx.accounts.admin.key();
-    vault.vault_token_account      = ctx.accounts.vault_token_account.key();
-    vault.accepted_mint            = ctx.accounts.accepted_mint.key();
-    vault.total_deposits           = 0;
-    vault.total_shares             = 0;
-    vault.kamino_allocation_bps    = params.kamino_allocation_bps;
+    let mut fixed_name = [0u8; MAX_VAULT_NAME_LEN];
+    fixed_name[..name_bytes.len()].copy_from_slice(name_bytes);
+    vault.name = fixed_name;
+
+    // preenche o resto do estado
+    vault.admin                     = ctx.accounts.admin.key();
+    vault.vault_token_account       = ctx.accounts.vault_token_account.key();
+    vault.accepted_mint             = ctx.accounts.accepted_mint.key();
+    vault.total_deposits            = 0;
+    vault.total_shares              = 0;
+    vault.kamino_allocation_bps     = params.kamino_allocation_bps;
     vault.prediction_allocation_bps = params.prediction_allocation_bps;
-    vault.bump                     = ctx.bumps.vault_config;
-    vault.vault_token_bump         = ctx.bumps.vault_token_account;
-    vault._reserved                = [0u8; 6];
+    vault.bump                      = ctx.bumps.vault_config;
+    vault.vault_token_bump          = ctx.bumps.vault_token_account;
+    vault._reserved                 = [0u8; 6];
 
     msg!(
         "Vault '{}' inicializado: Kamino {}bps / Prediction {}bps",

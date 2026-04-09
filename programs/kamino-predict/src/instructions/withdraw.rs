@@ -2,7 +2,8 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer};
 
 use crate::error::KaminoError;
-use crate::state::{UserPosition, VaultConfig};
+use crate::state::VaultConfig;
+use crate::state::UserPosition;
 
 #[derive(Accounts)]
 #[instruction(vault_name: String, shares: u64)]
@@ -60,13 +61,13 @@ pub fn withdraw_handler(ctx: Context<Withdraw>, _vault_name: String, shares: u64
     require!(amount > 0, KaminoError::ZeroAmount);
 
     // SPL Token transfer: vault → user (assinado pelo vault_config PDA)
-    let vault_name_bytes = vault.name;
-    let bump = vault.bump;
-    let signer_seeds: &[&[&[u8]]] = &[&[
-        b"vault",
-        vault_name_bytes.as_ref(),
-        &[bump],
-    ]];
+   let name_bytes = vault.name_str().as_bytes();
+   let bump = vault.bump;
+   let signer_seeds: &[&[&[u8]]] = &[&[
+    b"vault",
+    name_bytes,
+    &[bump],
+]];
 
     let cpi_accounts = Transfer {
         from:      ctx.accounts.vault_token_account.to_account_info(),

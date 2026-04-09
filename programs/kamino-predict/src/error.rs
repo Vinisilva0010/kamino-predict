@@ -19,4 +19,7 @@ pub enum KaminoError {
 
     #[msg("Invalid vault token account — expected PDA owned by program.")]
     InvalidVaultTokenAccount,
+
+    #[msg("Vault name is too long.")]
+    NameTooLong,
 }
