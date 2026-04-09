@@ -1,11 +1,11 @@
 use anchor_lang::prelude::*;
 
+pub mod error;
 pub mod instructions;
 pub mod state;
-pub mod error;
 
-pub use instructions::*;
 pub use error::KaminoError;
+pub use instructions::*;
 
 declare_id!("BJizs7CKAsLec1RWp8W3hJG1TPnLZ2aLsNboToWYs5BC");
 
@@ -20,11 +20,11 @@ pub mod kamino_predict {
         initialize_vault_handler(ctx, params)
     }
 
-    pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
-        deposit_handler(ctx, amount)
+    pub fn deposit(ctx: Context<Deposit>, vault_name: String, amount: u64) -> Result<()> {
+        deposit_handler(ctx, vault_name, amount)
     }
 
-    pub fn withdraw(ctx: Context<Withdraw>, amount: u64) -> Result<()> {
-        withdraw_handler(ctx, amount)
+    pub fn withdraw(ctx: Context<Withdraw>, vault_name: String, shares: u64) -> Result<()> {
+        withdraw_handler(ctx, vault_name, shares)
     }
 }
