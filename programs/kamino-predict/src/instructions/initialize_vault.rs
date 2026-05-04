@@ -79,15 +79,18 @@ pub fn initialize_vault_handler(
 
     // preenche o resto do estado
     vault.admin                     = ctx.accounts.admin.key();
-    vault.vault_token_account       = ctx.accounts.vault_token_account.key();
+    vault.vault_usdc_account        = ctx.accounts.vault_token_account.key(); // Atualizado
+    vault.vault_ktoken_account      = Pubkey::default(); // Inicializa vazio por enquanto
     vault.accepted_mint             = ctx.accounts.accepted_mint.key();
+    vault.klend_reserve             = Pubkey::default(); // Inicializa vazio por enquanto
     vault.total_deposits            = 0;
     vault.total_shares              = 0;
     vault.kamino_allocation_bps     = params.kamino_allocation_bps;
     vault.prediction_allocation_bps = params.prediction_allocation_bps;
     vault.bump                      = ctx.bumps.vault_config;
-    vault.vault_token_bump          = ctx.bumps.vault_token_account;
-    vault._reserved                 = [0u8; 6];
+    vault.vault_usdc_bump           = ctx.bumps.vault_token_account; // Atualizado
+    vault.vault_ktoken_bump         = 0; // Inicializa com 0 por enquanto
+    vault._reserved                 = [0u8; 64]; // Atualizado
 
     msg!(
         "Vault '{}' inicializado: Kamino {}bps / Prediction {}bps",

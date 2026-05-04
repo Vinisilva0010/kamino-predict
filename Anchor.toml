@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-kamino_predict = "BJizs7CKAsLec1RWp8W3hJG1TPnLZ2aLsNboToWYs5BC"
+kamino_predict = "radCWLzDo2E2LnEqdY8H8mitLfzSzAVNGfzHyX2foe5"
 
 [provider]
 cluster = "localnet"

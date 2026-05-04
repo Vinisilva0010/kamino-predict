@@ -7,7 +7,7 @@ pub mod state;
 pub use error::KaminoError;
 pub use instructions::*;
 
-declare_id!("BJizs7CKAsLec1RWp8W3hJG1TPnLZ2aLsNboToWYs5BC");
+declare_id!("radCWLzDo2E2LnEqdY8H8mitLfzSzAVNGfzHyX2foe5");
 
 #[program]
 pub mod kamino_predict {
