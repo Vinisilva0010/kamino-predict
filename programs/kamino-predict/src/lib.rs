@@ -27,4 +27,8 @@ pub mod kamino_predict {
     pub fn withdraw(ctx: Context<Withdraw>, vault_name: String, shares: u64) -> Result<()> {
         withdraw_handler(ctx, vault_name, shares)
     }
+
+    pub fn harvest_and_predict(ctx: Context<HarvestAndPredict>, vault_name: String) -> Result<()> {
+        harvest_and_predict_handler(ctx, vault_name)
+    }
 }
