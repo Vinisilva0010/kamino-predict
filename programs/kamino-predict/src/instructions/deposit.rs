@@ -37,7 +37,7 @@ pub struct Deposit<'info> {
     #[account(
         init_if_needed,
         payer = user,
-        space = UserPosition::LEN,
+        space = 120, 
         seeds = [b"position", user.key().as_ref(), vault_config.key().as_ref()],
         bump
     )]
