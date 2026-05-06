@@ -1,12 +1,12 @@
 import { Connection, Keypair, PublicKey } from '@solana/web3.js';
 import { Program, AnchorProvider, Wallet } from '@coral-xyz/anchor';
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { TOKEN_PROGRAM_ID, getOrCreateAssociatedTokenAccount } from '@solana/spl-token';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
 
-// Cole aqui o endereço do Fake USDC que você copiou do simulate_deposit.ts
-const FAKE_USDC_MINT = new PublicKey("DmJdUig35puCb23gLazF5RpjxYHbDPYCfCnm3YJDUKGb");
+// COLE O ENDEREÇO DO SEU TOKEN AQUI
+const FAKE_USDC_MINT = new PublicKey("4T2VJZ5pmTESnZUXYTbCAwtQ1PQeFf5FBhX6kEhJ4DR1");
 
 const RPC_URL = 'http://127.0.0.1:8899';
 const connection = new Connection(RPC_URL, 'confirmed');
@@ -30,28 +30,38 @@ async function runCrank() {
         const [vaultPda] = PublicKey.findProgramAddressSync([Buffer.from("vault"), Buffer.from(vaultName)], program.programId);
         const [vaultTokenPda] = PublicKey.findProgramAddressSync([Buffer.from("vault_token"), vaultPda.toBuffer()], program.programId);
 
+        // Cria a conta do Mercado de Previsões (vinculada ao bot)
+        const predictionPool = await getOrCreateAssociatedTokenAccount(
+            connection,
+            crankKeypair,
+            FAKE_USDC_MINT,
+            crankKeypair.publicKey
+        );
+
         console.log(`🔍 Lendo dados da Blockchain...`);
         const vaultData = await (program.account as any).vaultConfig.fetch(vaultPda);
         const tokenBalance = await connection.getTokenAccountBalance(vaultTokenPda);
+        const poolBalance = await connection.getTokenAccountBalance(predictionPool.address);
 
-        console.log(`\n📊 --- STATUS DO COFRE ---`);
-        console.log(`🎯 Alocação Kamino: ${vaultData.kaminoAllocationBps / 100}%`);
-        console.log(`💵 Saldo em Caixa: ${tokenBalance.value.uiAmount} USDC`);
+        console.log(`\n📊 --- STATUS DO SISTEMA ---`);
+        console.log(`💵 Cofre Principal: ${tokenBalance.value.uiAmount} USDC`);
+        console.log(`🎲 Mercado de Previsões: ${poolBalance.value.uiAmount} USDC`);
         console.log(`---------------------------\n`);
 
-        console.log(`⚙️ Girando a manivela (Extraindo 1% de Yield)...`);
+        console.log(`⚙️ Girando a manivela (Extraindo Yield e Enviando Aposta)...`);
         const tx = await (program.methods as any)
             .harvestAndPredict(vaultName)
             .accounts({
                 admin: crankKeypair.publicKey,
                 vaultConfig: vaultPda,
                 vaultUsdcAccount: vaultTokenPda,
+                predictionPool: predictionPool.address, // A nova conta receptora
                 acceptedMint: FAKE_USDC_MINT,
                 tokenProgram: TOKEN_PROGRAM_ID,
             })
             .rpc();
 
-        console.log(`✅ SUCESSO! Lucro gerado e inserido na conta.`);
+        console.log(`✅ SUCESSO! Aposta enviada.`);
         console.log(`🔗 Hash da Transação: ${tx}`);
 
     } catch (error: any) {
