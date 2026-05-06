@@ -21,7 +21,7 @@ const idl = JSON.parse(fs.readFileSync(idlPath, 'utf8'));
 const program = new Program(idl, provider);
 
 // O SEU FAKE USDC MINT AQUI:
-const FAKE_USDC_MINT = new PublicKey("7P9onQGS8jkw1rbm2CGdy1M9z6gUPSw6DVSzBF6693Kt");
+const FAKE_USDC_MINT = new PublicKey("DmJdUig35puCb23gLazF5RpjxYHbDPYCfCnm3YJDUKGb");
 const vaultName = "CofreBeta";
 
 async function simulateDeposit() {
