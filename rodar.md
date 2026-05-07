@@ -1,6 +1,6 @@
 
 o motor que fica rodando 
-solana-test-validator --reset
+solana-test-validator
 
 Sa6SmYaryFYHNZv32ViYp7x2kt78cJ9XDPCb5R8R8PG
 
@@ -10,13 +10,24 @@ npx ts-node setup.ts
 
 
 
-O Plano de Batalha (Próximos Passos)
-Para levarmos o Grande Prêmio de $5.000 ou o prêmio da trilha Kamino de $3.000, nós precisamos seguir esta esteira:
+FASE 1: A Integração Real (A nota máxima do Hackathon)
+O Objetivo: Acabar com a ideia de "cofre inútil".
 
-Criar a Interface Visual (Front-End via Eitherway): Vamos usar a plataforma exigida por eles para gerar a tela do dApp. O prompt lá será algo como "Criar um painel de controle mostrando as posições do cofre da Kamino com opção de depósito e saque".
+A Ação: Vamos pegar os 80% do seu saldo e escrever o código para enviá-los de verdade para a Klend (Kamino Lending). É aqui que o seu dApp passa a gerar rendimento (Yield) real. Sem isso, não pontuamos na Kamino Track.
 
-Integração Real do Kamino: Vamos estudar a documentação de desenvolvedores do Kamino fornecida no edital para trocar o nosso token falso pela integração real de Yield.
+FASE 2: O Salto para a Nuvem (Devnet e Mainnet)
+O Objetivo: Sair da sua máquina (Localhost) e ir para a internet.
 
-A Ponte do DFlow (Opcional, mas matador): Notei que a trilha do DFlow pede "Infraestrutura de negociação e qualidade de execução nos mercados spot e de previsão". Como nós enviamos o lucro para um mercado de previsão (prediction market), usar o DFlow para rotear essa aposta mataria duas trilhas de uma vez!
+A Ação: Vamos mudar o terminal para a rede global da Solana. Faremos o deploy do Smart Contract na rede oficial, trocaremos o "Fake USDC" pelo USDC verdadeiro e faremos o nosso site apontar para lá.
 
-Deploy na Mainnet & Gravação do Vídeo: Lançar na rede oficial, colocar uns 5 ou 10 dólares reais lá dentro e gravar o vídeo de 3 minutos exigido provando que funciona com dinheiro de verdade.
+FASE 3: Hospedagem do Site
+O Objetivo: Gerar a URL pública que o regulamento exige.
+
+A Ação: Pegar o nosso Front-End (o Dashboard que acabamos de consertar) e subi-lo na plataforma da Eitherway ou Vercel. Assim, qualquer juiz do Hackathon vai poder acessar o link, conectar a carteira e testar.
+
+FASE 4: O Pacote de Entrega (Superteam Earn)
+O Objetivo: Empacotar e vender o peixe.
+
+A Ação: 1. Gravar o vídeo de 3 minutos mostrando o depósito funcionando.
+2. Subir o código limpo para o seu GitHub.
+3. Escrever o parágrafo de documentação explicando a integração com o Kamino.
