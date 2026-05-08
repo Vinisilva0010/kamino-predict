@@ -53,7 +53,7 @@ function AppContent() {
 
 // 2. A CASCA: Ela apenas prepara a Solana e a Phantom
 export default function App() {
-  const endpoint = "http://127.0.0.1:8899";
+  const endpoint = "https://api.devnet.solana.com";
   const wallets = useMemo(() => [new SolflareWalletAdapter()], []);
 
   return (

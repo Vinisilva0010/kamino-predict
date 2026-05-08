@@ -9,7 +9,7 @@ import { TOKEN_PROGRAM_ID, getAssociatedTokenAddress } from '@solana/spl-token';
 import idl from '../kamino_predict.json';
 
 
-const FAKE_USDC_MINT = new PublicKey("4T2VJZ5pmTESnZUXYTbCAwtQ1PQeFf5FBhX6kEhJ4DR1");
+const FAKE_USDC_MINT = new PublicKey("GfowXi2DXfJsupiRYKrC6zMNKqoxNiiCDHsGZq1g826j");
 
 function Toast({ msg, type, onClose }) {
   return (

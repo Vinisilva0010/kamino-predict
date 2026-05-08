@@ -6,7 +6,7 @@ import * as os from 'os';
 import * as path from 'path';
 
 // 1. Conexão com a Localnet
-const RPC_URL = 'http://127.0.0.1:8899';
+const RPC_URL = 'https://api.devnet.solana.com';
 const connection = new Connection(RPC_URL, 'confirmed');
 
 // 2. Setup do Usuário (Admin)
@@ -21,7 +21,7 @@ const idl = JSON.parse(fs.readFileSync(idlPath, 'utf8'));
 const program = new Program(idl, provider);
 
 // ⚠️ MANTENHA O SEU NOVO ENDEREÇO AQUI:
-const FAKE_USDC_MINT = new PublicKey("4T2VJZ5pmTESnZUXYTbCAwtQ1PQeFf5FBhX6kEhJ4DR1");
+const FAKE_USDC_MINT = new PublicKey("GfowXi2DXfJsupiRYKrC6zMNKqoxNiiCDHsGZq1g826j");
 const vaultName = "CofreBeta";
 
 async function simulateDeposit() {

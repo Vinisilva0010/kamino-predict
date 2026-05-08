@@ -9,7 +9,7 @@ skip-lint = false
 kamino_predict = "radCWLzDo2E2LnEqdY8H8mitLfzSzAVNGfzHyX2foe5"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

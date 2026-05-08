@@ -6,7 +6,7 @@ import * as os from 'os';
 import * as path from 'path';
 
 // COLE O SEU FAKE USDC MINT AQUI
-const FAKE_USDC_MINT = new PublicKey("4T2VJZ5pmTESnZUXYTbCAwtQ1PQeFf5FBhX6kEhJ4DR1");
+const FAKE_USDC_MINT = new PublicKey("GfowXi2DXfJsupiRYKrC6zMNKqoxNiiCDHsGZq1g826j");
 
 const RPC_URL = 'http://127.0.0.1:8899';
 const connection = new Connection(RPC_URL, 'confirmed');
