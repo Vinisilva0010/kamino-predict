@@ -17,25 +17,11 @@ export default function Header({ loading, onRefresh, lastUpdated }) {
             <span className="text-kamino-accent font-semibold text-sm"> Vault</span>
           </div>
           <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-kamino-accent/10 text-kamino-accent border border-kamino-accent/20">
-            LOCALNET
+            DEVNET 
           </span>
         </div>
 
-        {/* Center nav */}
-        <nav className="hidden md:flex items-center gap-1">
-          {['Dashboard', 'Vaults', 'Analytics', 'History'].map((item, i) => (
-            <button
-              key={item}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-150 ${
-                i === 0
-                  ? 'bg-kamino-accent/10 text-kamino-accent'
-                  : 'text-kamino-muted hover:text-kamino-text hover:bg-kamino-card'
-              }`}
-            >
-              {item}
-            </button>
-          ))}
-        </nav>
+        
 
         {/* Right controls */}
         <div className="flex items-center gap-4">

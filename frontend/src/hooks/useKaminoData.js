@@ -66,14 +66,17 @@ export function useKaminoData() {
 
  
 
+ 
+  const isConnected = !!wallet.publicKey;
+  const displayDeposit = isConnected ? realDeposit : 0;
+
   const stats = {
-    // Se o realDeposit for maior que 0, ele mostra o seu dinheiro. Se não, mostra o mock para não ficar vazio.
-    totalDeposited: realDeposit > 0 ? realDeposit : 29450, 
-    totalEarned: realDeposit > 0 ? (realDeposit * 0.12) : 1635, // Simulando 12% de lucro sobre o seu saldo
-    avgApy: 21.35,
-    predictionYield: realDeposit > 0 ? (realDeposit * 0.20) : 5950,
-    totalPrincipal: realDeposit > 0 ? (realDeposit * 0.80) : 25000,
-    portfolioPerformance: 100
+    totalDeposited: displayDeposit, 
+    totalEarned: displayDeposit * 0.12, 
+    avgApy: 21.35, // O APY a gente mantém porque é a taxa do cofre!
+    predictionYield: displayDeposit * 0.20,
+    totalPrincipal: displayDeposit * 0.80,
+    portfolioPerformance: isConnected ? 100 : 0
   };
 
   const vaultData = [
@@ -84,22 +87,17 @@ export function useKaminoData() {
       token: 'USDC',
       symbol: 'USDC-SOL',
       apy: 21.35,
-      // O SEU SALDO APARECE NA TABELA AQUI!
-      userDeposit: realDeposit, 
-      earned: realDeposit > 0 ? (realDeposit * 0.12) : 10,
+      userDeposit: displayDeposit, 
+      earned: displayDeposit * 0.12,
       strategy: 'Yield & Predict'
     }
   ];
 
-  // Gerador dinâmico de histórico baseado no seu depósito real
-  const baseDeposit = realDeposit > 0 ? realDeposit : 25000;
-  
-  // Criamos os últimos 7 pontos (dias) do gráfico
+  // Gráfico zera se não tiver carteira conectada
   const history = Array.from({ length: 7 }).map((_, i) => {
-    // Finge um crescimento constante de 0.5% por "dia" para criar a curvinha
     const growthFactor = 1 + (i * 0.005); 
-    const currentPrincipal = baseDeposit * 0.80 * growthFactor;
-    const currentPrediction = baseDeposit * 0.20 * growthFactor;
+    const currentPrincipal = displayDeposit * 0.80 * growthFactor;
+    const currentPrediction = displayDeposit * 0.20 * growthFactor;
 
     return {
       date: `Dia ${i + 1}`,
@@ -109,7 +107,6 @@ export function useKaminoData() {
     };
   });
 
-  // NÃO PODEMOS APAGAR ISSO: É o que entrega os dados pro App.jsx
   return { 
     vaultData, 
     history, 
